@@ -42,23 +42,23 @@ Key Questions Explored
 
 
 SQL Techniques Used
-  Aggregations (SUM, MAX, MIN)
+    Aggregations (SUM, MAX, MIN)
 
-  Filtering and ordering
+    Filtering and ordering
 
-  Date extraction (YEAR, SUBSTRING)
+    Date extraction (YEAR, SUBSTRING)
 
-  Common Table Expressions (CTEs)
+    Common Table Expressions (CTEs)
 
-  Window functions (DENSE_RANK, cumulative SUM OVER)
+    Window functions (DENSE_RANK, cumulative SUM OVER)
 
-  Progressive query refinement to show analytical thought process
+    Progressive query refinement to show analytical thought process
 
   Summary of Insights:
-  Layoffs peaked during 2020–2021, aligning with early COVID impact.
+    Layoffs peaked during 2020–2021, aligning with early COVID impact.
 
-  Certain industries (tech, consumer services) showed significantly higher totals.
+    Certain industries (tech, consumer services) showed significantly higher totals.
 
-  Several companies experienced full workforce layoffs (100%).
+    Several companies experienced full workforce layoffs (100%).
 
-  Rolling totals highlight sharp increases during specific months.
+    Rolling totals highlight sharp increases during specific months.
