@@ -5,17 +5,17 @@ This project explores global layoffs from 2020–2023 using SQL. The goal was to
 
 The analysis includes:
 
-  Dataset exploration
+    Dataset exploration
 
-  Identifying extreme cases (100% layoffs)
+    Identifying extreme cases (100% layoffs)
 
-  Aggregating layoffs by company, industry, country, and funding stage
+    Aggregating layoffs by company, industry, country, and funding stage
 
-  Time‑based analysis (yearly, monthly, cumulative trends)
+    Time‑based analysis (yearly, monthly, cumulative trends)
 
-  Ranking companies by total layoffs per year
+    Ranking companies by total layoffs per year
 
-  Building and refining window‑function logic to identify top 5 companies each year
+    Building and refining window‑function logic to identify top 5 companies each year
 
 Key Questions Explored
 1. What companies, industries, and countries experienced the most layoffs?
