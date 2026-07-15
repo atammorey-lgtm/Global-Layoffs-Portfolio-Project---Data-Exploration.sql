@@ -1,0 +1,1 @@
+# Global-Layoffs-Portfolio-Project---Data-Exploration.sql
