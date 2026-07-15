@@ -3,6 +3,8 @@
 SELECT *
 FROM layoffs_staging2;
 
+--1. Seeing which companies, industries, countries had total layoffs.
+
 SELECT MAX(total_laid_off), MAX(percentage_laid_off)
 FROM layoffs_staging2;
 
@@ -28,6 +30,8 @@ FROM layoffs_staging2
 GROUP BY company
 ORDER BY 2 DESC
 ;
+
+--2. Discovering date range 2020-2023 (during COVID)
 
 SELECT MIN(`date`), MAX(`date`)
 FROM layoffs_staging2
@@ -57,10 +61,7 @@ GROUP BY stage
 ORDER BY 2 DESC
 ;
 
-SELECT SUBSTRING(`date`,6,2) AS `Month`, SUM(total_laid_off)
-FROM layoffs_staging2
-GROUP BY `Month`
-;
+--3. Rolling total of layoffs
 
 SELECT SUBSTRING(`date`,1,7) AS `Month`, SUM(total_laid_off)
 FROM layoffs_staging2
@@ -77,72 +78,31 @@ WHERE SUBSTRING(`date`,1,7) IS NOT NULL
 GROUP BY `Month`
 ORDER BY 1 ASC
 )
-
 SELECT `Month`, SUM(total_off) OVER(ORDER BY`Month`) AS rolling_total
 FROM Rolling_Total
 ;
 
-WITH Rolling_total AS
-(
-SELECT SUBSTRING(`date`,1,7) AS `Month`, SUM(total_laid_off) AS total_off, country
-FROM layoffs_staging2
-WHERE SUBSTRING(`date`,1,7) IS NOT NULL
-GROUP BY `Month`, country
-ORDER BY 1 ASC
-)
-SELECT country, `Month`, total_off
-,SUM(total_off) OVER(partition by country ORDER BY`Month`) AS rolling_total
-FROM Rolling_Total
-;
+--4. Company Layoff Per Year
 
 Select *
 FROM layoffs_staging2
 ;
 
-SELECT company, SUM(total_laid_off)
-FROM layoffs_staging2
-GROUP BY company
-ORDER BY 2 DESC
-;
+--Basic Company and year totals
 
-SELECT company,
-SUBSTRING(`date`,1,4) AS YEAR,
-SUM(total_laid_off) AS total_off
-FROM layoffs_staging2
-GROUP BY company, YEAR
-ORDER BY YEAR
-;
-
-WITH Company_year (company, years, total_laid_off) AS
-(
-SELECT company,
-YEAR (`date`),
-SUM(total_laid_off) AS total_off
+SELECT company, YEAR(`date`), SUM(total_laid_off)
 FROM layoffs_staging2
 GROUP BY company, YEAR(`date`)
-)
-SELECT *, DENSE_RANK() OVER(PARTITION BY years ORDER BY total_laid_off DESC)
-FROM Company_year
+ORDER BY 3 DESC
 ;
+
+--CTE Ranking
 
 WITH Company_year (company, years, total_laid_off) AS
 (
 SELECT company,
 YEAR (`date`),
-SUM(total_laid_off) AS total_off
-FROM layoffs_staging2
-GROUP BY company, YEAR(`date`)
-)
-SELECT *, DENSE_RANK() OVER(PARTITION BY years ORDER BY total_laid_off DESC)
-FROM Company_year
-WHERE years IS NOT NULL
-;
-
-WITH Company_year (company, years, total_laid_off) AS
-(
-SELECT company,
-YEAR (`date`),
-SUM(total_laid_off) AS total_off
+SUM(total_laid_off)
 FROM layoffs_staging2
 GROUP BY company, YEAR(`date`)
 )
@@ -153,11 +113,13 @@ WHERE years IS NOT NULL
 ORDER BY Ranking ASC
 ;
 
+--Filtered to top 5
+
 WITH Company_year (company, years, total_laid_off) AS
 (
 SELECT company,
 YEAR (`date`),
-SUM(total_laid_off) AS total_off
+SUM(total_laid_off)
 FROM layoffs_staging2
 GROUP BY company, YEAR(`date`)
 )
@@ -168,11 +130,13 @@ WHERE years IS NOT NULL AND Ranking <= 5
 ORDER BY Ranking ASC
 ;
 
+--5. Final Ranking top 5 company layoffs by year
+
 WITH Company_year (company, years, total_laid_off) AS
 (
 SELECT company,
 YEAR (`date`),
-SUM(total_laid_off) AS total_off
+SUM(total_laid_off)
 FROM layoffs_staging2
 GROUP BY company, YEAR(`date`)
 ), Company_year_rank AS
